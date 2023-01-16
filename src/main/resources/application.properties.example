@@ -1,6 +1,0 @@
-spring.datasource.url= jdbc:postgresql://localhost:5432/auth-patterns-db
-spring.datasource.username= postgres
-spring.datasource.password= 605605
-spring.datasource.jdbc-url=${spring.datasource.url}
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.datasource.platform=postgres

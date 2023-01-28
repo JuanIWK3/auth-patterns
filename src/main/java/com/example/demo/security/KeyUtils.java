@@ -4,6 +4,7 @@ package com.example.demo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,6 +19,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import java.util.Objects;
 
+@Component
 public class KeyUtils {
   @Autowired
   Environment environment;

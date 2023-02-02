@@ -1,9 +1,6 @@
 package com.example.authpoo.user;
 
 import com.example.authpoo.error.*;
-import com.example.authpoo.user.dto.GetUserDTO;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +14,7 @@ public class UserController extends ExceptionHandling {
     }
 
     @GetMapping("/getEmail")
-    public ResponseEntity<?> getUserByEmail(@RequestParam String email) throws EmailNotFoundException, EmailExistException {
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) throws EmailNotFoundException, EmailNotExistException {
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 

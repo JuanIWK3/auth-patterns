@@ -1,5 +1,6 @@
 package com.example.authpoo.auth;
 
+import com.example.authpoo.error.EmailExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
-    ) {
+    ) throws EmailExistsException {
         return ResponseEntity.ok(service.register(request));
     }
 

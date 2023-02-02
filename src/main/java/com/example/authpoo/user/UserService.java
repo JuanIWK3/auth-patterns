@@ -12,12 +12,12 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public User getUserByEmail(String email) throws EmailNotFoundException, EmailExistException{
+    public User getUserByEmail(String email) throws EmailNotFoundException, EmailNotExistException {
         //validateNewUsernameAndEmail("", "", email);
         User userByNewEmail = userRepository.findByEmail(email).get();
 
         if(userByNewEmail == null) {
-            throw new EmailExistException(email);
+            throw new EmailNotExistException(email);
         }
 
         return this.userRepository

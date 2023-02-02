@@ -1,6 +1,7 @@
 package com.example.authpoo.auth;
 
 import com.example.authpoo.config.JwtService;
+import com.example.authpoo.error.EmailExistsException;
 import com.example.authpoo.user.Role;
 import com.example.authpoo.user.User;
 import com.example.authpoo.user.UserRepository;
@@ -11,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -18,13 +21,19 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws EmailExistsException {
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
+
+        Optional<User> userExists = this.repository.findByEmail(request.getEmail());
+
+        if (userExists.isPresent()){
+            throw new EmailExistsException(request.getEmail());
+        }
 
         repository.save(user);
 

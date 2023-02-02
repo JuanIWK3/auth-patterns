@@ -26,6 +26,7 @@ public class User implements UserDetails {
     @Enumerated
     private Role role;
 
+
     @Override
     public String getUsername() {
         return email;

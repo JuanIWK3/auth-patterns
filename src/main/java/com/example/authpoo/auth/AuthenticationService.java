@@ -5,6 +5,7 @@ import com.example.authpoo.error.EmailExistsException;
 import com.example.authpoo.user.Role;
 import com.example.authpoo.user.User;
 import com.example.authpoo.user.UserRepository;
+import com.example.authpoo.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,7 +43,7 @@ public class AuthenticationService {
         return AuthenticationResponse
                 .builder()
                 .token(jwtToken)
-                .user(user)
+                .user_dto(new UserDto(user))
                 .build();
     }
 
@@ -60,7 +61,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .user(user)
+                .user_dto(new UserDto(user))
                 .build();
     }
 }

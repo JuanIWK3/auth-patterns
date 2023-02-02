@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+import java.util.Date;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -14,4 +15,13 @@ public class ApiError {
     String message;
     long timestamp;
     String path;
+
+    public ApiError(int status, String message, String path){
+        super();
+        this.status = status;
+        this.message = message;
+        this.path = path;
+        this.timestamp = new Date().getTime();
+    }
+
 }

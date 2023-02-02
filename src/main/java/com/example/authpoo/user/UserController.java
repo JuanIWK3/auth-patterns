@@ -4,6 +4,7 @@ import com.example.authpoo.error.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/user")
 public class UserController extends ExceptionHandling {
@@ -22,5 +23,4 @@ public class UserController extends ExceptionHandling {
     public ResponseEntity<?> getUserById(@RequestParam Integer id) throws IdExistException, IdNotFoundException {
         return ResponseEntity.ok(userService.getUserById(id));
     }
-
 }

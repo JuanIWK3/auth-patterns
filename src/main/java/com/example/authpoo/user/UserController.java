@@ -16,8 +16,14 @@ public class UserController extends ExceptionHandling {
         this.userService = userService;
     }
 
-    @PostMapping("/get")
-    public ResponseEntity<?> getUserByEmail(@RequestBody GetUserDTO getUserDTO, HttpServletRequest request) throws UserNotFoundException, EmailExistException, UsernameExistException {
-        return ResponseEntity.ok(userService.getUserByEmail(getUserDTO));
+    @GetMapping("/getEmail")
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) throws EmailNotFoundException, EmailExistException {
+        return ResponseEntity.ok(userService.getUserByEmail(email));
     }
+
+    @GetMapping("/getId")
+    public ResponseEntity<?> getUserById(@RequestParam Integer id) throws IdExistException, IdNotFoundException {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
 }

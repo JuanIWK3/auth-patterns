@@ -52,13 +52,18 @@ public class ExceptionHandling implements ErrorController {
 //        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
 //    }
 
-    @ExceptionHandler(UsernameExistException.class)
-    public ResponseEntity<FormatResponse> usernameExistException(UsernameExistException exception) {
+//    @ExceptionHandler(UsernameExistException.class)
+//    public ResponseEntity<FormatResponse> usernameExistException(UsernameExistException exception) {
+//        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
+//    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<FormatResponse> emailNotFoundException(EmailNotFoundException exception) {
         return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<FormatResponse> emailNotFoundException(NotFoundException exception) {
+    @ExceptionHandler(IdNotFoundException.class)
+    public ResponseEntity<FormatResponse> emailNotFoundException(IdNotFoundException exception) {
         return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
@@ -67,10 +72,10 @@ public class ExceptionHandling implements ErrorController {
         return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<FormatResponse> userNotFoundException(UserNotFoundException exception) {
-        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
-    }
+//    @ExceptionHandler(UserNotFoundException.class)
+//    public ResponseEntity<FormatResponse> userNotFoundException(UserNotFoundException exception) {
+//        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
+//    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<FormatResponse> internalServerErrorException(Exception exception) {

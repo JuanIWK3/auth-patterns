@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 
 public class GetUserDTO {
     private String email;
+    private String name;
 }

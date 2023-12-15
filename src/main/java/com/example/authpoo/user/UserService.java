@@ -4,6 +4,9 @@ import com.example.authpoo.error.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -12,54 +15,28 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public User getUserByEmail(String email) throws EmailNotFoundException, EmailNotExistException {
-        //validateNewUsernameAndEmail("", "", email);
-        User userByNewEmail = userRepository.findByEmail(email).get();
 
-        if(userByNewEmail == null) {
-            throw new EmailNotExistException(email);
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    public User getUserByEmail(String email) throws EmailNotFoundException {
+        Optional<User> userByNewEmail = userRepository.findByEmail(email);
+
+        if (userByNewEmail.isEmpty()) {
+            throw new EmailNotFoundException(email);
         }
 
-        return this.userRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new EmailNotFoundException(email));
+        return userByNewEmail.get();
     }
 
-    public User getUserById(Integer id) throws IdNotFoundException, IdExistException {
+    public User getUserById(Integer id) throws IdNotFoundException {
 
-        User userById = userRepository.findUserById(id).get();
+        Optional<User> userById = userRepository.findUserById(id);
 
-        if(userById == null){
-            throw new IdExistException(id);
+        if (userById.isEmpty()) {
+            throw new IdNotFoundException(id);
         }
 
-        return this.userRepository
-                .findById(id)
-                .orElseThrow(() -> new IdNotFoundException(id));
+        return userById.get();
     }
-//    private User validateNewUsernameAndEmail(String currentUsername, String newUsername, String newEmail) throws UserNotFoundException, UsernameExistException, EmailExistException {
-//        User userByNewUsername = userRepository.findUserByName(newUsername).get();
-//        User userByNewEmail = userRepository.findByEmail(newEmail).get();
-//        if(StringUtils.isNotBlank(currentUsername)) {
-//            User currentUser = userRepository.findUserByName(currentUsername).get();
-//            if(currentUser == null) {
-//                throw new UserNotFoundException(currentUsername);
-//            }
-//            if(userByNewUsername != null && !currentUser.getId().equals(userByNewUsername.getId())) {
-//                throw new UsernameExistException(currentUsername);
-//            }
-//            if(userByNewEmail != null && !currentUser.getId().equals(userByNewEmail.getId())) {
-//                throw new EmailExistException(newEmail);
-//            }
-//            return currentUser;
-//        } else {
-////            if(userByNewUsername != null) {
-////                throw new UsernameExistException(currentUsername);
-////            }
-//            if(userByNewEmail != null) {
-//                throw new EmailExistException(newEmail);
-//            }
-//            return null;
-//        }
-//    }
 }

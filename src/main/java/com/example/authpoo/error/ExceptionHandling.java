@@ -46,16 +46,6 @@ public class ExceptionHandling implements ErrorController {
         return createHttpResponse(HttpStatus.UNAUTHORIZED, ACCOUNT_LOCKED);
     }
 
-//    @ExceptionHandler(NotFoundException.class)
-//    public ResponseEntity<HttpResponse> emailExistException(NotFoundException exception) {
-//        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
-//    }
-
-//    @ExceptionHandler(UsernameExistException.class)
-//    public ResponseEntity<FormatResponse> usernameExistException(UsernameExistException exception) {
-//        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
-//    }
-
     @ExceptionHandler(EmailNotFoundException.class)
     public ResponseEntity<FormatResponse> emailNotFoundException(EmailNotFoundException exception) {
         return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
@@ -68,11 +58,6 @@ public class ExceptionHandling implements ErrorController {
 
     @ExceptionHandler(IdNotFoundException.class)
     public ResponseEntity<FormatResponse> idNotFoundException(IdNotFoundException exception) {
-        return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
-    }
-
-    @ExceptionHandler(EmailNotExistException.class)
-    public ResponseEntity<FormatResponse> emailNotExistException(EmailNotExistException exception) {
         return createHttpResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 

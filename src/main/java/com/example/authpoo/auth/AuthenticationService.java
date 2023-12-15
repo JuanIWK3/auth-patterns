@@ -2,6 +2,7 @@ package com.example.authpoo.auth;
 
 import com.example.authpoo.config.JwtService;
 import com.example.authpoo.error.EmailExistsException;
+import com.example.authpoo.error.EmailNotFoundException;
 import com.example.authpoo.user.Role;
 import com.example.authpoo.user.User;
 import com.example.authpoo.user.UserRepository;
@@ -22,7 +23,8 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    public AuthenticationResponse register(RegisterRequest request) throws EmailExistsException {
+    public AuthenticationResponse register(RegisterRequest request) throws EmailExistsException, EmailNotFoundException {
+        // Create user object
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -30,16 +32,22 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
 
+        // Check if user exists
         Optional<User> userExists = this.repository.findByEmail(request.getEmail());
 
+
+        // If user exists, throw exception
         if (userExists.isPresent()){
             throw new EmailExistsException(request.getEmail());
         }
 
+        // Save user in database
         repository.save(user);
 
+        // Generate JWT token
         var jwtToken = jwtService.generateToken(user);
 
+        // Return token and user
         return AuthenticationResponse
                 .builder()
                 .token(jwtToken)
@@ -47,7 +55,8 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) throws EmailNotFoundException {
+        // Authenticate user
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -55,10 +64,15 @@ public class AuthenticationService {
                 )
         );
 
-        var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
+        // Get user from database
+        // If user does not exist, throw exception
+        User user = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException(request.getEmail()));
 
+        // Generate JWT token
         var jwtToken = jwtService.generateToken(user);
+
+        // Return token and user
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .user_dto(new UserDto(user))
